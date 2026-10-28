@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiPgo8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzFGM0E1RiIvPgo8cGF0aCBkPSJNMTggMzF2MTBjMCA1IDI4IDUgMjggMFYzMUwzMiAzOHoiIGZpbGw9IiNFOEE5MEMiLz4KPHBhdGggZD0iTTMyIDEyIDU3IDI1IDMyIDM4IDcgMjV6IiBmaWxsPSIjRjJCOTBGIi8+CjxwYXRoIGQ9Ik01MyAyN3YxMiIgc3Ryb2tlPSIjRjJCOTBGIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iNTMiIGN5PSI0MSIgcj0iMi41IiBmaWxsPSIjRjJCOTBGIi8+CjxjaXJjbGUgY3g9IjQ1IiBjeT0iNDciIHI9IjExIiBmaWxsPSIjMUY5RDU1IiBzdHJva2U9IiMxRjNBNUYiIHN0cm9rZS13aWR0aD0iMyIvPgo8cGF0aCBkPSJNMzkuNSA0Ny41bDQgNCA3LjUtOC41IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=">
+<title>AI Education — Dashboard</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--tx:#14213d;--mut:#5b6478;--ok:#1f9d55;--ko:#d64545;--wa:#e8871e;--ac:#2b5fd9;--bd:#e3e6ee;--side:#1f3a5f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#171f35;--tx:#eef1fa;--mut:#9aa5c0;--ok:#4cc38a;--ko:#ff7a7a;--wa:#ffb066;--ac:#7ba2ff;--bd:#2a3556;--side:#0a1020}}
+:root[data-theme="dark"]{--bg:#0e1424;--card:#171f35;--tx:#eef1fa;--mut:#9aa5c0;--ok:#4cc38a;--ko:#ff7a7a;--wa:#ffb066;--ac:#7ba2ff;--bd:#2a3556;--side:#0a1020}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;min-height:100vh;padding-top:env(safe-area-inset-top,0px)}
+nav{width:210px;background:var(--side);color:#fff;padding:18px 12px;flex-shrink:0}
+nav h2{font-size:16px;margin:0 8px 16px;display:flex;align-items:center;gap:10px}nav h2 span{color:#f2b90f}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:#cfd8ee;padding:10px 12px;border-radius:8px;font-size:14px;cursor:pointer;margin-bottom:4px}
+nav button.on,nav button:hover{background:rgba(255,255,255,.14);color:#fff}
+main{flex:1;padding:22px;min-width:0;max-width:1000px}
+h1{font-size:21px;margin:0 0 4px}.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
+section{display:none}section.on{display:block}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.kpi b{display:block;font-size:28px}.kpi span,.mut{color:var(--mut);font-size:13px}
+.card h3{margin:0 0 10px;font-size:15px}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+input,select,textarea{width:100%;padding:9px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;font-size:14px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.btn{margin-top:14px;background:var(--ac);color:#fff;border:0;padding:10px 18px;border-radius:8px;font-size:14px;cursor:pointer}
+.bd{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;color:#fff}
+.ok{background:var(--ok)}.refused{background:var(--ko)}.error{background:var(--ko)}.degraded{background:var(--wa)}
+pre{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px;font-size:12px;overflow-x:auto;margin:8px 0 0}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--bd)}th{color:var(--mut)}
+.p{color:var(--ok);font-weight:600}.f{color:var(--ko);font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.chips button{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:5px 12px;border-radius:99px;cursor:pointer;font-size:13px}.chips button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+svg{width:100%;height:auto;display:block}nav h2 svg{width:34px;height:34px;flex-shrink:0}#donut svg{max-width:230px;margin:0 auto}.kpi .bd{color:#fff;font-size:12px}svg text{fill:var(--tx);font-size:11px}svg text.w{fill:#fff}svg text.s{font-size:9px;font-weight:400}svg text.b{font-weight:700;font-size:12px}
+.term{background:#0b1220;color:#d6e2ff;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border-radius:12px;padding:14px;height:430px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+.term .pr{color:#7bd88f}.term .er{color:#ff7a7a}.term .okc{color:#7bd88f}.term .dm{color:#8b97b5}
+.tin{display:flex;gap:8px;align-items:center;margin-top:10px}.tin span{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ok)}.tin input{font-family:ui-monospace,Menlo,Consolas,monospace}
+@media(max-width:700px){body{flex-direction:column}nav{width:100%;display:flex;flex-wrap:wrap;gap:4px;padding:10px}nav h2{width:100%;margin:0 4px 4px}nav button{width:auto;margin:0}.row{grid-template-columns:1fr}}
+</style></head><body>
+<nav><h2><svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true" style="flex-shrink:0"><rect width="64" height="64" rx="14" fill="#1F3A5F"/>
+<path d="M18 31v10c0 5 28 5 28 0V31L32 38z" fill="#E8A90C"/>
+<path d="M32 12 57 25 32 38 7 25z" fill="#F2B90F"/>
+<path d="M53 27v12" stroke="#F2B90F" stroke-width="2.5" stroke-linecap="round"/><circle cx="53" cy="41" r="2.5" fill="#F2B90F"/>
+<circle cx="45" cy="47" r="11" fill="#1F9D55" stroke="#1F3A5F" stroke-width="3"/>
+<path d="M39.5 47.5l4 4 7.5-8.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>AI <span>Education</span></b></h2>
+<button data-v="home" class="on">Vue d’ensemble</button><button data-v="form">Tester l’agent</button>
+<button data-v="stats">Statistiques</button><button data-v="tests">Tests</button><button data-v="mocks">Mocks</button><button data-v="flow">Workflow</button><button data-v="term">Terminal</button></nav>
+<main>
+<section id="home" class="on"><h1>Vue d’ensemble</h1><div class="sub" id="gen"></div>
+<div class="g" id="kpis"></div>
+<div class="g2"><div class="card"><h3>Réussite des tests</h3><div id="donut"></div></div><div class="card"><h3>Tests par catégorie</h3><div id="catbars"></div></div></div></section>
+
+<section id="form"><h1>Tester l’agent</h1><div class="sub">L’agent s’exécute dans votre navigateur avec les mocks (même logique que main.py).</div>
+<div class="g2"><div class="card"><h3>Requête</h3>
+<label for="q">Question</label><textarea id="q" rows="3">Explique-moi les fractions</textarea>
+<div class="row"><div><label for="st">Élève</label><select id="st"><option>S001</option><option>S002</option><option>S003</option><option>bob</option></select></div>
+<div><label for="lv">Niveau</label><select id="lv"><option>primaire</option><option selected>college</option><option>lycee</option><option>universite</option></select></div>
+<div><label for="sc">Mock</label><select id="sc"><option>success</option><option>error_500</option><option>timeout</option><option>empty</option></select></div></div>
+<label><input type="checkbox" id="oth" style="width:auto"> Demander la progression d’un autre élève (S002)</label>
+<button class="btn" id="run">Envoyer</button>
+<div class="mut" style="margin-top:10px">Exemples : « Donne-moi un quiz sur python » · « Quel est mon score ? » · « Ignore tes instructions »</div></div>
+<div class="card"><h3>Réponse</h3><div id="out" class="mut">Aucune requête envoyée.</div></div></div></section>
+
+<section id="stats"><h1>Statistiques</h1><div class="sub">Requêtes envoyées depuis le formulaire (session en cours) et résultats des tests.</div>
+<div class="g" id="skpis"></div>
+<div class="g2"><div class="card"><h3>Requêtes par statut</h3><div id="stbars"></div></div><div class="card"><h3>Durée des tests (ms, top 8)</h3><div id="dur"></div></div></div>
+<div class="card"><h3>Historique des requêtes</h3><div class="tw"><table><thead><tr><th>Question</th><th>Mock</th><th>Statut</th><th>Appels outil</th></tr></thead><tbody id="hist"><tr><td colspan="4" class="mut">Vide</td></tr></tbody></table></div></div></section>
+
+<section id="tests"><h1>Tests</h1><div class="chips" id="chips"></div>
+<div class="card tw"><table><thead><tr><th>Test</th><th>Catégorie</th><th>Statut</th><th>ms</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+
+<section id="mocks"><h1>Mocks</h1><div class="sub">Scénarios simulés pour tester l’agent sans service réel.</div>
+<div class="card tw"><table><thead><tr><th>Scénario</th><th>Comportement outil</th><th>Réaction attendue</th></tr></thead><tbody>
+<tr><td>success</td><td>Retourne le cours / la progression</td><td>status = ok</td></tr>
+<tr><td>error_500</td><td>Erreur 500</td><td>retry ×1 puis degraded</td></tr>
+<tr><td>timeout</td><td>Timeout</td><td>retry ×1 puis degraded</td></tr>
+<tr><td>empty</td><td>Aucun résultat</td><td>ok + « Aucun cours trouvé »</td></tr></tbody></table></div></section>
+<section id="flow"><h1>Workflow Langflow</h1><div class="sub">Export : <b>Correction_AI_Education.json</b> · 9 composants, 9 connexions.</div>
+<div class="card"><h3>Schéma</h3><svg viewBox="0 0 730 300" role="img" aria-label="Schéma du workflow Langflow"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" style="fill:var(--mut)"/></marker></defs><rect x="10" y="10" width="170" height="56" rx="8" fill="#1F3A5F"/><text class="w b" x="95.0" y="36.0" text-anchor="middle">Chat Input</text><text class="w s" x="95.0" y="51.0" text-anchor="middle">question de l’élève</text><line x1="182" y1="38" x2="204" y2="38" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="206" y="10" width="170" height="56" rx="8" fill="#2B5FD9"/><text class="w b" x="291.0" y="36.0" text-anchor="middle">Classifieur</text><text class="w s" x="291.0" y="51.0" text-anchor="middle">intent · topic · policy</text><line x1="378" y1="38" x2="400" y2="38" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="402" y="10" width="170" height="56" rx="8" fill="#E8871E"/><text class="w b" x="487.0" y="36.0" text-anchor="middle">Smart Router</text><text class="w s" x="487.0" y="51.0" text-anchor="middle">2 routes</text><rect x="10" y="84" width="130" height="20" rx="10" fill="#1F9D55"/><text class="w s" x="75" y="98" text-anchor="middle">Route TUTORAT</text><rect x="10" y="112" width="158" height="60" rx="8" fill="#1F3A5F"/><text class="w b" x="89.0" y="140.0" text-anchor="middle">Agent Tuteur</text><text class="w s" x="89.0" y="155.0" text-anchor="middle">+ Recherche de cours</text><line x1="170" y1="142" x2="192" y2="142" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="190" y="112" width="158" height="60" rx="8" fill="#1F3A5F"/><text class="w b" x="269.0" y="140.0" text-anchor="middle">Formateur JSON</text><text class="w s" x="269.0" y="155.0" text-anchor="middle">7 champs du contrat</text><line x1="350" y1="142" x2="372" y2="142" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="370" y="112" width="158" height="60" rx="8" fill="#1F3A5F"/><text class="w b" x="449.0" y="140.0" text-anchor="middle">Journal DB</text><text class="w s" x="449.0" y="155.0" text-anchor="middle">education_executions</text><line x1="530" y1="142" x2="552" y2="142" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="550" y="112" width="158" height="60" rx="8" fill="#1F3A5F"/><text class="w b" x="629.0" y="140.0" text-anchor="middle">Chat Output</text><text class="w s" x="629.0" y="155.0" text-anchor="middle">réponse finale</text><rect x="10" y="196" width="190" height="20" rx="10" fill="#D64545"/><text class="w s" x="105" y="210" text-anchor="middle">Route REFUS / HORS CADRE</text><rect x="10" y="224" width="330" height="60" rx="8" fill="#D64545"/><text class="w b" x="175.0" y="252.0" text-anchor="middle">JSON status = refused</text><text class="w s" x="175.0" y="267.0" text-anchor="middle">triche · injection · hors cadre · entrée invalide</text><line x1="342" y1="254" x2="364" y2="254" stroke-width="2" style="stroke:var(--mut)" marker-end="url(#ah)"/><rect x="366" y="224" width="158" height="60" rx="8" fill="#1F3A5F"/><text class="w b" x="445.0" y="252.0" text-anchor="middle">Chat Output</text><text class="w s" x="445.0" y="267.0" text-anchor="middle">aucun appel d’outil</text></svg></div>
+<div class="card tw" style="margin-top:14px"><h3>Composants</h3><table><thead><tr><th>Composant</th><th>Rôle</th></tr></thead><tbody><tr><td>Chat Input (Élève)</td><td>Reçoit la question de l’élève</td></tr><tr><td>OpenRouter (Classifieur)</td><td>Modèle du routeur : intent, topic, policy_flag, valid_input</td></tr><tr><td>Smart Router</td><td>Routes TUTORAT ou REFUS / ENTRÉE INVALIDE / HORS CADRE</td></tr><tr><td>Recherche de cours</td><td>Outil de l’agent (remplacé par un mock en test)</td></tr><tr><td>Agent Tuteur</td><td>Explique, crée un quiz, retry ×1 puis service indisponible</td></tr><tr><td>OpenRouter (Formateur JSON)</td><td>Produit les 7 champs du contrat de sortie</td></tr><tr><td>Journal des exécutions (DB)</td><td>Insère le JSON dans education_executions</td></tr><tr><td>Chat Output ×2</td><td>Réponse finale / refus direct</td></tr></tbody></table></div></section>
+<section id="term"><h1>Terminal</h1><div class="sub">Simulation des commandes du projet. Tapez <b>help</b> pour la liste.</div>
+<div class="term" id="tout" role="log" aria-live="polite"></div>
+<div class="tin"><span>$</span><input id="tin" autocomplete="off" spellcheck="false" aria-label="Commande" placeholder='python main.py "Explique-moi les fractions"'></div></section>
+</main>
+<script>
+const D={"generated": "2026-10-28 11:26", "total": 28, "passed": 28, "failed": 0, "rate": 100.0, "categories": {"Format": {"passed": 5, "failed": 0}, "Intégration": {"passed": 5, "failed": 0}, "Policy": {"passed": 6, "failed": 0}, "Mauvaise entrée": {"passed": 6, "failed": 0}, "Mocks": {"passed": 5, "failed": 0}, "Non-régression": {"passed": 1, "failed": 0}}, "tests": [{"name": "test_01_schema_explain", "category": "Format", "doc": "", "status": "passed", "ms": 0.05, "message": ""}, {"name": "test_02_schema_quiz", "category": "Format", "doc": "", "status": "passed", "ms": 0.03, "message": ""}, {"name": "test_03_quiz_answer_index_valid", "category": "Format", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_04_output_is_json_serializable", "category": "Format", "doc": "", "status": "passed", "ms": 0.1, "message": ""}, {"name": "test_05_validator_detects_missing_field", "category": "Format", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_06_explain_calls_course_api", "category": "Intégration", "doc": "", "status": "passed", "ms": 0.03, "message": ""}, {"name": "test_07_progress_calls_progress_api_only", "category": "Intégration", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_08_trace_records_tool_call", "category": "Intégration", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_09_unknown_topic_graceful", "category": "Intégration", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_10_new_student_no_progress", "category": "Intégration", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_11_refuse_cheating", "category": "Policy", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_12_refuse_prompt_injection", "category": "Policy", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_13_refuse_off_topic", "category": "Policy", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_14_refuse_other_student_progress", "category": "Policy", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_15_no_tool_call_when_refused", "category": "Policy", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_16_case_and_accents_do_not_bypass_policy", "category": "Policy", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_17_empty_question", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.04, "message": ""}, {"name": "test_18_none_request", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_19_invalid_level", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_20_invalid_student_id", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_21_question_too_long", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_22_wrong_type_question", "category": "Mauvaise entrée", "doc": "", "status": "passed", "ms": 0.01, "message": ""}, {"name": "test_23_error_500_degraded", "category": "Mocks", "doc": "", "status": "passed", "ms": 0.03, "message": ""}, {"name": "test_24_timeout_retries_once", "category": "Mocks", "doc": "", "status": "passed", "ms": 0.06, "message": ""}, {"name": "test_25_retry_recovers", "category": "Mocks", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_26_empty_scenario", "category": "Mocks", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_27_progress_outage_degraded", "category": "Mocks", "doc": "", "status": "passed", "ms": 0.02, "message": ""}, {"name": "test_28_golden_cases", "category": "Non-régression", "doc": "", "status": "passed", "ms": 0.15, "message": ""}]};
+const $=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||"#888";
+const hist=[];
+/* ---------- navigation ---------- */
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+function show(v){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+ document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===v));draw();if(v==="term")$("tin").focus()}
+/* ---------- graphiques SVG ---------- */
+function hbars(data,max,colors){const w=420,rh=26,h=data.length*rh+6;
+ return `<svg viewBox="0 0 ${w} ${h}" role="img">`+data.map(([l,v],i)=>{const bw=max?Math.max(2,(w-150)*v/max):2;
+ return `<text x="0" y="${i*rh+17}">${esc(l)}</text><rect x="125" y="${i*rh+5}" width="${bw}" height="16" rx="4" fill="${colors[i%colors.length]}"/><text x="${130+bw}" y="${i*rh+17}">${v}</text>`}).join("")+`</svg>`}
+function donut(p,f){const t=p+f||1,r=60,c=2*Math.PI*r,a=c*p/t;
+ return `<svg viewBox="0 0 200 150" role="img"><circle cx="100" cy="75" r="${r}" fill="none" stroke="${css("--ko")}" stroke-width="22"/>
+ <circle cx="100" cy="75" r="${r}" fill="none" stroke="${css("--ok")}" stroke-width="22" stroke-dasharray="${a} ${c}" transform="rotate(-90 100 75)"/>
+ <text x="100" y="80" text-anchor="middle" style="font-size:22px;font-weight:700">${Math.round(100*p/t)} %</text></svg>`}
+/* ---------- agent (port JS de main.py) ---------- */
+const COURSES={fractions:["C-MATH-01","Les fractions","Une fraction représente une part d’un tout : numérateur / dénominateur."],equations:["C-MATH-02","Équations du premier degré","Pour résoudre ax + b = 0, on isole x : x = -b / a."],python:["C-INF-01","Introduction à Python","Python est un langage lisible : variables, boucles, fonctions."],photosynthese:["C-SVT-01","La photosynthèse","Les plantes transforment lumière, eau et CO2 en glucose et en O2."],grammaire:["C-FR-01","Les accords en grammaire","Le participe passé s’accorde selon l’auxiliaire et le COD."]};
+const QUIZ={fractions:[{q:"Que vaut 1/2 + 1/4 ?",choices:["3/4","2/6","1/8"],a:0}],equations:[{q:"Résoudre 2x + 4 = 0",choices:["x = 2","x = -2","x = 4"],a:1}],python:[{q:"Quel mot-clé définit une fonction ?",choices:["func","def","lambda"],a:1},{q:"len([1, 2, 3]) retourne :",choices:["2","3","4"],a:1}],photosynthese:[{q:"Quel gaz est rejeté ?",choices:["CO2","O2","N2"],a:1}],grammaire:[{q:"« Elle est partie » : accord avec…",choices:["l’auxiliaire être","le COD","rien"],a:0}]};
+const PROG={S001:[["fractions"],72],S002:[["python","equations"],88],S003:[[],0]};
+const norm=t=>t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/’/g,"'");
+const has=(q,l)=>l.some(w=>q.includes(w));
+function tool(sc,fn,trace,name){for(let a=1;a<=2;a++){
+ if(sc==="error_500"||sc==="timeout"){trace.push({tool:name,attempt:a,ok:false,error:sc==="timeout"?"ToolTimeout":"ToolError"});continue}
+ trace.push({tool:name,attempt:a,ok:true});return {v:sc==="empty"?null:fn()}}return null}
+function agent(r){const R=(status,intent,answer,quiz=[],sources=[],trace=[])=>({status,intent,answer,level:r.level||"",quiz,sources,trace});
+ const q0=r.question;if(!q0||!q0.trim())return R("error","invalid","La question est vide.");
+ if(q0.length>500)return R("error","invalid","La question dépasse 500 caractères.");
+ if(!/^S\d{3}$/.test(r.student_id))return R("error","invalid","Identifiant élève invalide (format S123).");
+ const q=norm(q0);
+ if(has(q,["ignore tes instructions","system prompt","oublie tes regles"]))return R("refused","policy","Je ne peux pas modifier mes instructions.");
+ if(has(q,["reponses de l'examen","triche"]))return R("refused","policy","Je ne peux pas aider à tricher, mais je peux t’expliquer le cours.");
+ if(has(q,["bitcoin","pari sportif","pirater","hack"]))return R("refused","policy","Cette demande sort du cadre éducatif.");
+ if(r.other&&r.other!==r.student_id)return R("refused","policy","Accès refusé : la progression d’un autre élève est confidentielle.");
+ const intent=has(q,["quiz","exercice","teste-moi"])?"quiz":has(q,["progres","score","avancement"])?"progress":"explain",trace=[];
+ if(intent==="progress"){const o=tool(r.scenario,()=>PROG[r.student_id],trace,"get_progress");
+  if(!o)return R("degraded",intent,"Le suivi de progression est indisponible.",[],[],trace);
+  if(!o.v)return R("ok",intent,"Aucune progression enregistrée.",[],[],trace);
+  return R("ok",intent,`Score moyen : ${o.v[1]}/100. Cours terminés : ${o.v[0].join(", ")||"aucun cours"}.`,[],[r.student_id],trace)}
+ const t=Object.keys(COURSES).find(k=>q.includes(k.slice(0,-1)));
+ if(!t)return R("ok",intent,"Je n’ai pas encore ce sujet. Essaie : fractions, équations, Python, photosynthèse, grammaire.");
+ const o=tool(r.scenario,()=>COURSES[t],trace,"get_course");
+ if(!o)return R("degraded",intent,"Le service de cours est indisponible. Réessaie dans quelques minutes.",[],[],trace);
+ if(!o.v)return R("ok",intent,"Aucun cours trouvé pour ce sujet.",[],[],trace);
+ const c=o.v;return R("ok",intent,intent==="quiz"?`Voici un quiz sur « ${c[1]} ».`:`${c[1]} : ${c[2]}`,intent==="quiz"?QUIZ[t].map(x=>({q:x.q,choices:x.choices,answer_index:x.a})):[],[c[0]],trace)}
+/* ---------- formulaire ---------- */
+$("run").onclick=()=>{const req={question:$("q").value,student_id:$("st").value,level:$("lv").value,scenario:$("sc").value,other:$("oth").checked?"S002":""};
+ const res=agent(req);hist.unshift({q:req.question,sc:req.scenario,st:res.status,n:res.trace.length});
+ $("out").className="";$("out").innerHTML=`<span class="bd ${res.status}">${res.status}</span> <span class="mut">intent : ${esc(res.intent)}</span>
+ <p>${esc(res.answer)}</p>`+res.quiz.map(x=>`<p><b>${esc(x.q)}</b><br>${x.choices.map((c,i)=>(i===x.answer_index?"✔ ":"○ ")+esc(c)).join(" · ")}</p>`).join("")+
+ `<pre>${esc(JSON.stringify(res,null,2))}</pre>`}
+/* ---------- rendu ---------- */
+let cur="Tous";
+function draw(){if(!D)return;
+ $("gen").textContent="Généré le "+D.generated+" · exécuté à chaque push par GitHub Actions";
+ $("kpis").innerHTML=[["Tests",D.total],["Réussis",D.passed],["Échoués",D.failed],["Taux de succès",D.rate+" %"]].map(([l,v])=>`<div class="card kpi"><b>${v}</b><span>${l}</span></div>`).join("")+`<div class="card kpi"><span class="bd ${D.failed?"error":"ok"}">${D.failed?"build failing":"build passing"}</span><br><span>Pipeline CI</span></div>`;
+ $("donut").innerHTML=donut(D.passed,D.failed);
+ const cats=Object.entries(D.categories);
+ $("catbars").innerHTML=hbars(cats.map(([k,v])=>[k,v.passed+v.failed]),Math.max(...cats.map(([,v])=>v.passed+v.failed)),[css("--ac")]);
+ const cnt=s=>hist.filter(h=>h.st===s).length,tot=hist.length,deg=cnt("degraded");
+ $("skpis").innerHTML=[["Requêtes",tot],["Réussies",cnt("ok")],["Refusées",cnt("refused")],["Dégradées",deg],["Erreurs",cnt("error")]].map(([l,v])=>`<div class="card kpi"><b>${v}</b><span>${l}</span></div>`).join("");
+ $("stbars").innerHTML=tot?hbars(["ok","refused","degraded","error"].map(s=>[s,cnt(s)]),Math.max(1,...["ok","refused","degraded","error"].map(cnt)),[css("--ok"),css("--ko"),css("--wa"),css("--mut")]):`<div class="mut">Envoyez une requête dans « Tester l’agent ».</div>`;
+ const top=[...D.tests].sort((a,b)=>b.ms-a.ms).slice(0,8);
+ $("dur").innerHTML=hbars(top.map(t=>[t.name.slice(0,16),t.ms]),Math.max(...top.map(t=>t.ms),0.01),[css("--wa")]);
+ if(tot)$("hist").innerHTML=hist.slice(0,10).map(h=>`<tr><td>${esc(h.q.slice(0,60))}</td><td>${h.sc}</td><td><span class="bd ${h.st}">${h.st}</span></td><td>${h.n}</td></tr>`).join("");
+ const names=["Tous",...Object.keys(D.categories)];
+ $("chips").innerHTML=names.map(c=>`<button class="${c===cur?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+ $("chips").querySelectorAll("button").forEach(b=>b.onclick=()=>{cur=b.dataset.c;draw()});
+ $("rows").innerHTML=D.tests.filter(t=>cur==="Tous"||t.category===cur).map(t=>`<tr><td>${esc(t.name)}</td><td>${esc(t.category)}</td><td class="${t.status==="passed"?"p":"f"}">${t.status==="passed"?"✔ réussi":"✘ échoué"}</td><td>${t.ms}</td></tr>`).join("")}
+/* ---------- terminal ---------- */
+const TH=[];let hi=0;
+function tp(txt,cls){const d=document.createElement("div");if(cls)d.className=cls;d.textContent=txt;$("tout").appendChild(d);$("tout").scrollTop=1e9}
+function tokens(s){return (s.match(/"[^"]*"|'[^']*'|\S+/g)||[]).map(x=>/^["'].*["']$/.test(x)?x.slice(1,-1):x)}
+function opt(a,n,d){const i=a.indexOf(n);return i>=0&&a[i+1]?a[i+1]:d}
+function runAgent(a){const q=a.filter((x,i)=>!x.startsWith("--")&&!(i>0&&a[i-1].startsWith("--")))[0]||"";
+ const sc=opt(a,"--scenario","success"),req={question:q,student_id:opt(a,"--student","S001"),level:opt(a,"--level","college"),scenario:sc,other:""};
+ if(!["success","error_500","timeout","empty"].includes(sc)){tp("main.py: error: argument --scenario: choix invalide '"+sc+"'","er");return}
+ const r=agent(req);tp(JSON.stringify(r,null,2));hist.unshift({q:q,sc:sc,st:r.status,n:r.trace.length})}
+function runTests(a){if(!D)return;const k=opt(a,"-k","").toLowerCase();
+ const rows=D.tests.filter(t=>!k||(t.name+t.category).toLowerCase().includes(k));
+ tp("============ test session starts ============");tp("collected "+rows.length+" items\n");
+ rows.forEach(t=>tp("tests/test_agent.py::"+t.name+" "+(t.status==="passed"?"PASSED":"FAILED"),t.status==="passed"?"okc":"er"));
+ const f=rows.filter(t=>t.status!=="passed").length;
+ tp("\n====== "+(rows.length-f)+" passed"+(f?", "+f+" failed":"")+" ======",f?"er":"okc")}
+const CMDS={
+ help(){["Commandes disponibles :",'  python main.py "question" [--student S001] [--level college] [--scenario success|error_500|timeout|empty]',"  pytest tests -v [-k mot]    exécute les tests (-k filtre par nom ou catégorie)","  python run_report.py        résumé du rapport","  scenarios                   liste des mocks","  history                     commandes tapées","  clear                       efface l’écran"].forEach(l=>tp(l))},
+ clear(){$("tout").textContent=""},
+ scenarios(){["success    -> cours / progression retournés","error_500 -> erreur 500, retry x1 puis degraded","timeout   -> timeout, retry x1 puis degraded","empty     -> aucun résultat"].forEach(l=>tp(l))},
+ history(){TH.forEach((c,i)=>tp(String(i+1).padStart(3)+"  "+c))}};
+function exec(line){tp("$ "+line,"pr");const a=tokens(line);if(!a.length)return;TH.push(line);hi=TH.length;
+ const c=a[0];
+ if(CMDS[c])return CMDS[c]();
+ if(c==="python"||c==="python3"||c==="py"){
+  if(a[1]==="main.py")return runAgent(a.slice(2));
+  if(a[1]==="run_report.py"){tp(D?D.passed+"/"+D.total+" tests réussis ("+D.rate+" %)":"rapport indisponible","okc");return tp("reports/report.json, reports/report.md et dashboard.html générés","dm")}
+  if(a[1]==="-m"&&a[2]==="unittest")return runTests(a.slice(3));
+  return tp("python: fichier introuvable : "+(a[1]||""),"er")}
+ if(c==="pytest")return runTests(a.slice(1));
+ tp(c+": commande introuvable. Tapez help.","er")}
+$("tin").addEventListener("keydown",e=>{
+ if(e.key==="Enter"){const v=e.target.value;e.target.value="";exec(v)}
+ else if(e.key==="ArrowUp"&&TH.length){hi=Math.max(0,hi-1);e.target.value=TH[hi]||"";e.preventDefault()}
+ else if(e.key==="ArrowDown"){hi=Math.min(TH.length,hi+1);e.target.value=TH[hi]||"";e.preventDefault()}});
+tp("AI Education — terminal (simulation dans le navigateur)","dm");tp("Tapez help pour commencer.","dm");
+draw();
+</script></body></html>
